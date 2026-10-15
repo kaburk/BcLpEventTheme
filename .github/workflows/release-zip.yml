@@ -25,6 +25,7 @@ jobs:
           zip -r "$ZIP_NAME" "$FOLDER_NAME" \
               -x "$FOLDER_NAME/.git/*" \
               -x "$FOLDER_NAME/.github/*" \
+              -x "$FOLDER_NAME/docs/*" \
               -x "*.zip"
 
       - name: リリースにZIPをアップロード
