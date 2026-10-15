@@ -1,0 +1,267 @@
+@charset "UTF-8";
+/* ==========================================================================
+   BcLpEventTheme : baserCMS 5 イベント・セミナー LP テーマ
+
+   サイト全体（ヘッダー・フッター・フォーム画面）
+   - 接頭辞 lpe-（BEM）
+   - 色はテーマ設定の4色（config.css の --theme-*）から作る。未保存のときは下記のフォールバック色
+   - 本文（BurgerEditor）のスタイルは bge_style.css
+   - ブレークポイント: 640px / 860px
+   ========================================================================== */
+
+/* ---- Tokens ---- */
+:root {
+	/* フォールバックの値は theme_configs.csv の初期値と同じにする */
+	--lpe-main: var(--theme-main, #2f7cf6);
+	--lpe-sub: var(--theme-sub, #1d2b4f);
+	--lpe-link: var(--theme-link, #1f6fe0);
+	--lpe-hover: var(--theme-hover, #1f5fcc);
+	--lpe-main-06: color-mix(in srgb, var(--lpe-main) 6%, #fff);
+	--lpe-main-10: color-mix(in srgb, var(--lpe-main) 10%, #fff);
+	--lpe-main-18: color-mix(in srgb, var(--lpe-main) 18%, #fff);
+	--lpe-main-30: color-mix(in srgb, var(--lpe-main) 30%, #fff);
+	--lpe-sub-06: color-mix(in srgb, var(--lpe-sub) 6%, #fff);
+	--lpe-sub-12: color-mix(in srgb, var(--lpe-sub) 12%, #fff);
+	--lpe-text: #2b2b2b;
+	--lpe-text-2: #3f3f3f;
+	--lpe-text-3: #4d4d4d;
+	--lpe-shadow: 0 1px 2px rgba(0, 0, 0, .04), 0 8px 24px rgba(0, 0, 0, .06);
+	--lpe-font: "M PLUS Rounded 1c", "Zen Maru Gothic", system-ui, sans-serif;
+	--lpe-font-head: "Zen Maru Gothic", "M PLUS Rounded 1c", system-ui, sans-serif;
+	--lpe-header-h: 84px;
+	--lpe-width: 1160px;
+	--lpe-gutter: 40px;
+}
+@media (max-width: 860px) {
+	:root { --lpe-gutter: 16px; --lpe-header-h: 72px; }
+}
+
+/* ---- Base ---- */
+html { scroll-behavior: smooth; scroll-padding-top: var(--lpe-header-h); }
+.lpe-body { margin: 0; font-family: var(--lpe-font); font-size: 17px; line-height: 1.85; color: var(--lpe-text); background: #fff; }
+.lpe-body *, .lpe-body *::before, .lpe-body *::after { box-sizing: border-box; }
+.lpe-body a { color: var(--lpe-link); text-underline-offset: 3px; }
+.lpe-body a:hover { color: var(--lpe-hover); }
+.lpe-body img { max-width: 100%; height: auto; }
+.lpe-body :focus-visible { outline: 3px solid var(--lpe-link); outline-offset: 3px; border-radius: 12px; }
+.lpe-body [hidden] { display: none !important; }
+.lpe-visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.lpe-wrap { max-width: var(--lpe-width); margin: 0 auto; padding: 0 var(--lpe-gutter); }
+.lpe-wrap--narrow { max-width: calc(800px + var(--lpe-gutter) * 2); }
+
+/* ---- Buttons ---- */
+.lpe-btn,
+.lpe-body a.lpe-btn {
+	display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+	min-height: 52px; padding: 0 28px; border: 0; border-radius: 999px;
+	background: var(--lpe-main); color: #fff;
+	font: inherit; font-family: var(--lpe-font-head); font-size: 19px; font-weight: 700; letter-spacing: .04em; line-height: 1.3;
+	text-decoration: none; cursor: pointer;
+	box-shadow: 0 6px 16px color-mix(in srgb, var(--lpe-main) 28%, transparent);
+	transition: background-color .2s, transform .2s;
+}
+.lpe-btn:hover,
+.lpe-body a.lpe-btn:hover { background: var(--lpe-sub); color: #fff; transform: translateY(-1px); }
+.lpe-btn--lg { min-height: 64px; padding: 0 40px; font-size: 21px; }
+.lpe-btn--ghost,
+.lpe-body a.lpe-btn--ghost { background: #fff; color: var(--lpe-sub); box-shadow: inset 0 0 0 2px var(--lpe-sub-12), var(--lpe-shadow); }
+.lpe-btn--ghost:hover,
+.lpe-body a.lpe-btn--ghost:hover { background: var(--lpe-sub-06); color: var(--lpe-sub); }
+
+/* ---- Header ---- */
+.lpe-header { position: sticky; top: 0; z-index: 20; padding: 14px 0; background: rgba(255, 255, 255, .92); backdrop-filter: blur(8px); box-shadow: 0 1px 0 var(--lpe-sub-12); }
+.lpe-header__inner { display: flex; align-items: center; gap: 28px; min-height: 52px; }
+.lpe-header__logo { display: flex; align-items: center; flex: none; max-width: 220px; color: var(--lpe-sub); font-family: var(--lpe-font-head); font-size: 20px; font-weight: 900; line-height: 1.3; text-decoration: none; }
+.lpe-body .lpe-header__logo { color: var(--lpe-sub); text-decoration: none; }
+.lpe-header__logo img { display: block; max-height: 44px; width: auto; }
+.lpe-nav { display: flex; gap: 6px; margin-left: auto; }
+.lpe-nav ul { display: flex; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.lpe-body .lpe-nav a { display: block; padding: 10px 16px; border-radius: 999px; color: var(--lpe-sub); font-size: 16px; font-weight: 700; text-decoration: none; }
+.lpe-body .lpe-nav a:hover { background: var(--lpe-main-10); color: var(--lpe-sub); }
+.lpe-header__cta { flex: none; }
+.lpe-nav + .lpe-header__cta { margin-left: 0; }
+.lpe-header__inner > .lpe-header__cta:nth-child(2) { margin-left: auto; }
+.lpe-burger { display: none; width: 48px; height: 48px; margin-left: auto; padding: 0; border: 0; border-radius: 14px; background: var(--lpe-main-10); color: var(--lpe-sub); align-items: center; justify-content: center; cursor: pointer; }
+.lpe-burger svg { width: 24px; height: 24px; }
+.lpe-burger .lpe-burger__close { display: none; }
+.lpe-burger[aria-expanded="true"] .lpe-burger__open { display: none; }
+.lpe-burger[aria-expanded="true"] .lpe-burger__close { display: block; }
+.lpe-drawer { margin: 12px var(--lpe-gutter) 4px; padding: 12px; border-radius: 20px; background: #fff; box-shadow: var(--lpe-shadow); }
+.lpe-drawer ul { margin: 0; padding: 0; list-style: none; }
+.lpe-body .lpe-drawer a { display: block; padding: 14px 16px; border-radius: 14px; color: var(--lpe-sub); font-size: 18px; font-weight: 700; text-decoration: none; }
+.lpe-body .lpe-drawer a:hover { background: var(--lpe-main-10); }
+.lpe-body .lpe-drawer a.lpe-btn { width: 100%; margin-top: 8px; padding: 0 28px; color: #fff; }
+.lpe-back { margin-left: auto; font-weight: 700; }
+@media (min-width: 861px) { .lpe-drawer { display: none !important; } }
+@media (max-width: 860px) {
+	.lpe-header { padding: 10px 0; }
+	.lpe-nav, .lpe-header__cta { display: none !important; }
+	.lpe-burger { display: inline-flex; }
+}
+
+/* ---- Main ---- */
+.lpe-main { display: block; }
+.lpe-main > .lpe-flash { max-width: var(--lpe-width); margin: 16px auto; padding: 0 var(--lpe-gutter); }
+
+/* ---- 本文：空の画像（公開画面のみ） ----
+   BurgerEditor の「選択画像を削除する」は data-bge-empty を "0" のまま img の src だけを空にする。
+   bge_style.css の「空の画像」の点線の枠は編集エリア用なので、公開画面では打ち消す。 */
+.lpe-body .bge-contents img[src=""] { display: none; }
+.lpe-body .bge-contents .bgt-image:is([data-bge-empty="1"], :has(img[src=""])) { display: none; }
+/* 登壇者：写真が空でもカードの高さがそろうよう、写真と同じ大きさのグレーの枠を出す */
+.lpe-body .lpe-blk--speakers .bgt-image:is([data-bge-empty="1"], :has(img[src=""])) {
+	display: block; min-height: 0; padding: 0; border: 0; aspect-ratio: 4 / 3; border-radius: 16px; background: #e7e7e7;
+}
+.lpe-body .lpe-blk--speakers .bgt-image:is([data-bge-empty="1"], :has(img[src=""]))::before { content: none; }
+
+/* ---- 本文：ヒーローの画像が空のときの図形の飾り（公開画面のみ） ----
+   bge_style.css に書くと編集エリアでも画像の欄が消え、写真を登録できなくなる。 */
+.lpe-body .lpe-blk--hero .bgt-grid--last:has([data-bge-empty="1"], img[src=""]) {
+	position: relative; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px;
+}
+.lpe-body .lpe-blk--hero .bgt-grid--last:has([data-bge-empty="1"], img[src=""])::before,
+.lpe-body .lpe-blk--hero .bgt-grid--last:has([data-bge-empty="1"], img[src=""])::after,
+.lpe-body .lpe-blk--hero .bgt-grid--last:has([data-bge-empty="1"], img[src=""]) > *::before,
+.lpe-body .lpe-blk--hero .bgt-grid--last:has([data-bge-empty="1"], img[src=""]) > *::after { content: ""; display: block; aspect-ratio: 1 / 1; }
+.lpe-body .lpe-blk--hero .bgt-grid--last:has([data-bge-empty="1"], img[src=""])::before { order: 1; border-radius: 28px; background: var(--lpe-main); }
+.lpe-body .lpe-blk--hero .bgt-grid--last:has([data-bge-empty="1"], img[src=""])::after { order: 4; border-radius: 28px; background: var(--lpe-sub); }
+.lpe-body .lpe-blk--hero .bgt-grid--last:has([data-bge-empty="1"], img[src=""]) > * { display: contents; }
+.lpe-body .lpe-blk--hero .bgt-grid--last:has([data-bge-empty="1"], img[src=""]) > *::before { order: 2; border-radius: 50%; background: var(--lpe-main-30); }
+.lpe-body .lpe-blk--hero .bgt-grid--last:has([data-bge-empty="1"], img[src=""]) > *::after { order: 3; border-radius: 28px 28px 28px 50%; background: #fff; }
+.lpe-body .lpe-blk--hero .bgt-grid--last:has([data-bge-empty="1"], img[src=""]) .bgt-image { display: none; }
+
+/* ---- 本文：会場アクセスの2列レイアウト（公開画面のみ） ----
+   地図 → 情報 → お知らせ の順に並んでいるときだけ、PC では地図を左、情報とお知らせを右の列にする。
+   bge_style.css に書くと BurgerEditor の編集エリアでも float になり、
+   後ろのブロックの操作領域が地図に重なって、地図ブロックを選べなくなる。 */
+@media (min-width: 861px) {
+	.bge-contents { --lpe-acc-left: calc((100% - var(--lpe-inline) * 2) * .53); }
+	.bge-contents > .lpe-blk--map:has(+ .lpe-blk--info) {
+		float: left; width: calc(var(--lpe-inline) + var(--lpe-acc-left)); padding-right: 0;
+	}
+	.bge-contents > .lpe-blk--map:has(+ .lpe-blk--info) .bgt-google-maps { height: 440px; }
+	.bge-contents > .lpe-blk--map + .lpe-blk--info,
+	.bge-contents > .lpe-blk--map + .lpe-blk--info + .lpe-blk--note { padding-left: calc(var(--lpe-inline) + var(--lpe-acc-left) + 24px); padding-bottom: 16px; }
+	.bge-contents > .lpe-blk--map + .lpe-blk--info .bge-ckeditor ul { grid-template-columns: minmax(0, 1fr); }
+	/* 右の列の最後のブロックの後で float を解除する */
+	.bge-contents > .lpe-blk--map + .lpe-blk--info + .lpe-blk--note + *,
+	.bge-contents > .lpe-blk--map + .lpe-blk--info:not(:has(+ .lpe-blk--note)) + * { clear: both; }
+	.bge-contents > .lpe-blk--map + .lpe-blk--info + .lpe-blk--note { padding-bottom: 32px; }
+}
+
+/* ---- Footer ---- */
+.lpe-footer { padding: 48px 0 32px; background: var(--lpe-sub-06); }
+.lpe-footer__inner { display: flex; flex-wrap: wrap; gap: 24px 64px; align-items: flex-start; }
+.lpe-footer__name { margin: 0; color: var(--lpe-sub); font-family: var(--lpe-font-head); font-size: 21px; font-weight: 900; }
+.lpe-footer .bs-widget { margin: 0; }
+.lpe-footer .bs-widget-text { display: flex; flex-wrap: wrap; gap: 24px 64px; align-items: flex-start; }
+.lpe-footer .bs-widget-head { margin: 0 0 4px; color: var(--lpe-sub); font-size: 16px; }
+.lpe-footer dl { display: grid; grid-template-columns: auto 1fr; gap: 4px 20px; margin: 0; }
+.lpe-footer dt { color: var(--lpe-sub); font-weight: 700; }
+.lpe-footer dd { margin: 0; }
+.lpe-footer p { margin: 0; }
+.lpe-footer__copy { display: block; margin-top: 32px; color: var(--lpe-text-3); font-size: 14px; }
+
+/* ---- Form screens（BcMail） ---- */
+.lpe-fsec { padding: 48px 0 96px; background: var(--lpe-main-06); }
+.lpe-steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin: 0 0 32px; padding: 8px; border-radius: 999px; background: #fff; box-shadow: var(--lpe-shadow); list-style: none; }
+.lpe-steps li { display: flex; align-items: center; justify-content: center; gap: 10px; padding: 10px; border-radius: 999px; color: var(--lpe-text-3); font-weight: 700; }
+.lpe-steps__n { display: flex; align-items: center; justify-content: center; width: 30px; height: 30px; border-radius: 50%; background: var(--lpe-sub-06); font-size: 15px; }
+.lpe-steps li.is-current { background: var(--lpe-main-10); color: var(--lpe-sub); }
+.lpe-steps li.is-current .lpe-steps__n { background: var(--lpe-sub); color: #fff; }
+.lpe-fcard { padding: 48px; border-radius: 28px; background: #fff; box-shadow: var(--lpe-shadow); }
+.lpe-fcard__title { margin: 0 0 8px; color: var(--lpe-sub); font-family: var(--lpe-font-head); font-size: clamp(28px, 3.4vw, 38px); font-weight: 900; line-height: 1.35; }
+.lpe-fcard__lead { margin: 0 0 32px; color: var(--lpe-text-2); }
+.lpe-fcard__lead > :first-child { margin-top: 0; }
+.lpe-fcard__lead > :last-child { margin-bottom: 0; }
+.lpe-done { text-align: center; }
+.lpe-done__icon { display: inline-flex; align-items: center; justify-content: center; width: 96px; height: 96px; margin-bottom: 24px; border-radius: 50%; background: var(--lpe-main-10); color: var(--lpe-sub); }
+.lpe-done__icon svg { width: 48px; height: 48px; }
+.lpe-done__message { text-align: left; }
+.lpe-done__actions { margin-top: 32px; }
+
+/* フォーム本体（bc-front の mail_form / mail_input の出力構造に当てる） */
+.lpe-form .bs-mail-form-body { display: block; width: 100%; border-collapse: collapse; }
+.lpe-form .bs-mail-form-body tbody { display: flex; flex-direction: column; gap: 28px; }
+.lpe-form .bs-mail-form-body tr { display: block; }
+.lpe-form .bs-mail-form-body th,
+.lpe-form .bs-mail-form-body td { display: block; width: auto; padding: 0; text-align: left; border: 0; }
+.lpe-form .bs-mail-form-body th.col-head { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; color: var(--lpe-sub); font-size: 17px; font-weight: 700; }
+.lpe-form .col-head label { color: inherit; }
+.lpe-form .required,
+.lpe-form .normal { display: inline-block; padding: 0 10px; border-radius: 999px; font-size: 13px; font-weight: 700; line-height: 1.8; }
+.lpe-form .required { background: var(--lpe-sub); color: #fff; }
+.lpe-form .normal { background: var(--lpe-sub-06); color: var(--lpe-text-3); }
+.lpe-form .col-input { color: var(--lpe-text); }
+.lpe-form .col-input > span[id^="FieldMessage"] { display: inline; }
+.lpe-form .bs-mail-before-attachment,
+.lpe-form .bs-mail-after-attachment { color: var(--lpe-text-2); font-size: 15px; }
+.lpe-form .bs-mail-attention,
+.lpe-form .bs-mail-description { display: block; margin: 6px 0 0; color: var(--lpe-text-3); font-size: 15px; }
+.lpe-form .bs-mail-description { margin: 0 0 6px; }
+.lpe-form input[type="text"],
+.lpe-form input[type="email"],
+.lpe-form input[type="tel"],
+.lpe-form input[type="number"],
+.lpe-form input[type="password"],
+.lpe-form select,
+.lpe-form textarea {
+	width: 100%; min-height: 56px; padding: 12px 16px;
+	border: 1.5px solid #8a8a8a; border-radius: 14px; background: #fff;
+	color: var(--lpe-text); font: inherit; font-size: 18px;
+	transition: border-color .2s, box-shadow .2s;
+}
+/* 姓・名のように class="form-s" の欄が並ぶ行は2列にする */
+.lpe-form .col-input:has(input.form-s) { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.lpe-form .col-input:has(input.form-s) > span[id^="FieldMessage"] { display: block; }
+.lpe-form input.form-s { width: 100%; }
+.lpe-form select { width: auto; min-width: 220px; max-width: 100%; }
+.lpe-form textarea { min-height: 150px; line-height: 1.7; resize: vertical; }
+.lpe-form input:focus,
+.lpe-form select:focus,
+.lpe-form textarea:focus { border-color: var(--lpe-main); box-shadow: 0 0 0 4px var(--lpe-main-18); outline: none; }
+.lpe-form ::placeholder { color: #767676; }
+.lpe-form input[type="radio"],
+.lpe-form input[type="checkbox"] { width: 22px; height: 22px; margin: 0 8px 0 0; vertical-align: middle; accent-color: var(--lpe-main); }
+/* ラジオ・チェックボックスは「input + label」を包む span をカードにする */
+.lpe-form .col-input span:has(> input[type="radio"]),
+.lpe-form .col-input span:has(> input[type="checkbox"]) {
+	position: relative; display: inline-flex; align-items: center; min-height: 60px; margin: 0 12px 12px 0; padding: 0 20px;
+	border-radius: 16px; background: var(--lpe-main-06); box-shadow: inset 0 0 0 1.5px var(--lpe-main-18);
+}
+.lpe-form .col-input span:has(> input[type="radio"]) label,
+.lpe-form .col-input span:has(> input[type="checkbox"]) label { color: var(--lpe-sub); font-weight: 700; cursor: pointer; }
+/* label のクリック範囲をカード全体に広げる */
+.lpe-form .col-input span:has(> input[type="radio"]) label::after,
+.lpe-form .col-input span:has(> input[type="checkbox"]) label::after { content: ""; position: absolute; inset: 0; }
+.lpe-form .error-message { margin-top: 6px; color: #c0262d; font-size: 15px; font-weight: 700; }
+.lpe-form .form-error { border-color: #c0262d !important; }
+.lpe-form .bs-mail-form-submit { display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; margin-top: 40px; }
+.lpe-form .bs-mail-form-submit .bs-button { display: inline-flex; align-items: center; justify-content: center; min-height: 64px; padding: 0 40px; border: 0; border-radius: 999px; background: var(--lpe-main); color: #fff; font: inherit; font-family: var(--lpe-font-head); font-size: 21px; font-weight: 700; cursor: pointer; box-shadow: 0 6px 16px color-mix(in srgb, var(--lpe-main) 28%, transparent); }
+.lpe-form .bs-mail-form-submit .bs-button:hover { background: var(--lpe-sub); }
+.lpe-form .bs-mail-form-submit #BtnMessageBack,
+.lpe-form .bs-mail-form-submit input[type="reset"] { background: #fff; color: var(--lpe-sub); box-shadow: inset 0 0 0 2px var(--lpe-sub-12), var(--lpe-shadow); }
+/* 確認画面（freeze 時は値のテキストが出る） */
+.lpe-form.is-confirm .bs-mail-form-body tbody { gap: 0; }
+.lpe-form.is-confirm .bs-mail-form-body tr { display: grid; grid-template-columns: 200px 1fr; gap: 8px 16px; padding: 16px 4px; border-bottom: 1px solid var(--lpe-sub-12); }
+.lpe-form.is-confirm .col-head { margin: 0; }
+.lpe-form.is-confirm .required,
+.lpe-form.is-confirm .normal { display: none; }
+.lpe-form.is-confirm .col-input { white-space: pre-wrap; word-break: break-word; }
+.lpe-form.is-confirm .col-input:has(input.form-s) { display: block; }
+.lpe-form.is-confirm .col-input:has(input.form-s) > span[id^="FieldMessage"] { display: inline; }
+@media (max-width: 640px) {
+	.lpe-fcard { padding: 28px 20px; border-radius: 22px; }
+	.lpe-steps { border-radius: 20px; }
+	.lpe-steps li { flex-direction: column; gap: 2px; border-radius: 14px; font-size: 14px; }
+	.lpe-form .col-input:has(input.form-s) { gap: 8px; }
+	.lpe-form .bs-mail-form-submit .bs-button { width: 100%; }
+	.lpe-form.is-confirm .bs-mail-form-body tr { grid-template-columns: 1fr; gap: 4px; }
+}
+
+/* ---- Reduced motion ---- */
+@media (prefers-reduced-motion: reduce) {
+	html { scroll-behavior: auto; }
+	.lpe-body *, .lpe-body *::before, .lpe-body *::after { transition: none !important; animation: none !important; }
+	.lpe-btn:hover { transform: none; }
+}

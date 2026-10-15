@@ -1,0 +1,2 @@
+﻿id,description,thanks,unpublish,sender_1,sender_2,sender_name,subject_user,subject_admin,form_template,mail_template,redirect_url,auth_captcha,widget_area,ssl_on,save_info,publish_begin,publish_end,created,modified
+1,"<p>Webサイト運用 実践セミナー 2026（12月10日開催）への申し込みです。</p>","<p>ご登録のメールアドレスに、受付完了のメールをお送りしました。</p><p>メールが届かない場合は、迷惑メールフォルダをご確認ください。それでも見つからない場合は、seminar@example.com までお問い合わせください。</p>",,,,"サンプル株式会社 セミナー事務局","【Webサイト運用 実践セミナー 2026】お申し込みを受け付けました","【Webサイト運用 実践セミナー 2026】新しい申し込みがありました",default,mail_default,,,,,1,,,,

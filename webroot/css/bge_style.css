@@ -1,0 +1,357 @@
+@charset "UTF-8";
+/* ==========================================================================
+   BcLpEventTheme : baserCMS 5 イベント・セミナー LP テーマ
+
+   本文（BurgerEditor）のスタイル
+   公開画面と BurgerEditor の編集エリアの両方で読み込まれる（style.css は編集エリアでは読まれない）
+
+   ■ 独自class一覧（ブロック設定の「独自class設定」に入力する）
+   | 独自class            | 使うブロック                         | 中身の書き方
+   |----------------------|--------------------------------------|---------------------------------------------
+   | lpe-blk--hero        | 画像右寄せ（テキスト回り込み無し）   | テキスト：箇条書き（ラベル）→ 見出し1（イベント名）→ 段落（キャッチ）
+   |                      |                                      | → 箇条書き（日時・形式）→ 最後の段落にリンク（申し込むボタンになる）
+   |                      |                                      | 画像を空にすると、図形の飾りが表示される
+   | lpe-blk--section     | 大見出し                             | セクションの見出し。「ID設定」に英字（例 overview）を入れると、
+   |                      |                                      | ヘッダーのナビに載り、見出しの上に英字のラベルが出る
+   | lpe-blk--overview    | 2カラムテーブル                      | 見出し欄＝項目名、内容欄＝値。1行目は大きなタイル（日時向け）
+   |                      |                                      | 内容欄の1行目が大きく、2行目以降が補足になる
+   | lpe-blk--checklist   | 1カラムテキスト                      | 箇条書き。1項目＝1枚のカード（アイコンは自動）
+   | lpe-blk--program     | 2カラムテーブル                      | 見出し欄＝時刻、内容欄の1行目＝題名、2行目＝補足（登壇者など）
+   | lpe-blk--speakers    | 画像3列＋テキスト                    | テキスト：見出し3（名前）→ 段落（肩書き）→ 段落（紹介文）
+   | lpe-blk--map         | GoogleMaps                           | 地図で会場の位置を指定する。サイト基本設定に Google Maps API キーが必要
+   |                      |                                      | キーのプロジェクトで Maps JavaScript API・Geocoding API（住所検索）・Maps Static API を有効にする
+   |                      |                                      | Google のデモ用キーでは住所検索が使えない。地図をドラッグして位置を合わせる
+   |                      |                                      | サイト基本設定の「GoogleMaps住所」は、このブロックには反映されない
+   |                      |                                      | 直後に lpe-blk--info（と lpe-blk--note）を置くと、PC では地図が左・情報が右の2列になる
+   | lpe-blk--info        | 1カラムテキスト                      | 箇条書き。各項目の先頭を太字（項目名）にし、改行して内容を書く
+   | lpe-blk--note        | 1カラムテキスト                      | 濃い色のお知らせカード。見出し3＋段落
+   | lpe-blk--faq         | 1カラムテキスト                      | 見出し3＝質問、直後の段落＝回答。質問ごとに開閉できる
+   | lpe-blk--cta         | 1カラムテキスト                      | 段落（締め切り）→ 見出し2 → 段落（注記）→ 最後の段落にリンク（ボタン）
+   | lpe-blk--nonav       | 大見出し（lpe-blk--section と併用）  | ID を入れても、ヘッダーのナビには載せない（英字のラベルだけ出す）
+   | lpe-blk--center      | 任意                                  | 中央寄せ
+
+   ■ ブロック設定の「背景色」（テーマ色に置き換えている）
+   - ブルー：メイン色の薄い背景／グレー：サブ色の薄い背景／ピンク：サブ色の濃い背景（白文字）
+   - 同じ背景色のブロックを続けると、1つのセクションとしてつながって見える
+
+   ■ 開催日を変えるときに直す場所
+   ヒーロー（lpe-blk--hero）／開催概要（lpe-blk--overview）／申し込み（lpe-blk--cta）／メールフォームの説明文
+   ========================================================================== */
+
+/* ---- Tokens（style.css と同じ値。編集エリア用に再定義） ---- */
+:root {
+	--lpe-main: var(--theme-main, #2f7cf6);
+	--lpe-sub: var(--theme-sub, #1d2b4f);
+	--lpe-link: var(--theme-link, #1f6fe0);
+	--lpe-hover: var(--theme-hover, #1f5fcc);
+	--lpe-main-06: color-mix(in srgb, var(--lpe-main) 6%, #fff);
+	--lpe-main-10: color-mix(in srgb, var(--lpe-main) 10%, #fff);
+	--lpe-main-18: color-mix(in srgb, var(--lpe-main) 18%, #fff);
+	--lpe-main-30: color-mix(in srgb, var(--lpe-main) 30%, #fff);
+	--lpe-sub-06: color-mix(in srgb, var(--lpe-sub) 6%, #fff);
+	--lpe-sub-12: color-mix(in srgb, var(--lpe-sub) 12%, #fff);
+	--lpe-shadow: 0 1px 2px rgba(0, 0, 0, .04), 0 8px 24px rgba(0, 0, 0, .06);
+	--lpe-font-head: "Zen Maru Gothic", "M PLUS Rounded 1c", system-ui, sans-serif;
+
+	/* アイコン（mask-image 用） */
+	--lpe-ic-calendar: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='4' width='18' height='18' rx='3'/%3E%3Cpath d='M16 2v4M8 2v4M3 10h18'/%3E%3C/svg%3E");
+	--lpe-ic-pin: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z'/%3E%3Ccircle cx='12' cy='10' r='3'/%3E%3C/svg%3E");
+	--lpe-ic-users: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2'/%3E%3Ccircle cx='9' cy='7' r='4'/%3E%3Cpath d='M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75'/%3E%3C/svg%3E");
+	--lpe-ic-ticket: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z'/%3E%3Cpath d='M13 5v2M13 17v2M13 11v2'/%3E%3C/svg%3E");
+	--lpe-ic-target: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Ccircle cx='12' cy='12' r='6'/%3E%3Ccircle cx='12' cy='12' r='2'/%3E%3C/svg%3E");
+	--lpe-ic-building: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='4' y='2' width='16' height='20' rx='2'/%3E%3Cpath d='M9 22v-4h6v4M8 6h.01M12 6h.01M16 6h.01M8 10h.01M12 10h.01M16 10h.01M8 14h.01M12 14h.01M16 14h.01'/%3E%3C/svg%3E");
+	--lpe-ic-pen: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z'/%3E%3C/svg%3E");
+	--lpe-ic-chart: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 3v18h18M7 16l4-4 4 4 5-6'/%3E%3C/svg%3E");
+	--lpe-ic-refresh: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 12a9 9 0 0 1 15-6.7L21 8M21 3v5h-5M21 12a9 9 0 0 1-15 6.7L3 16M3 21v-5h5'/%3E%3C/svg%3E");
+	--lpe-ic-train: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='4' y='3' width='16' height='16' rx='3'/%3E%3Cpath d='M4 11h16M12 3v8M8 19l-2 3M16 19l2 3M8 15h.01M16 15h.01'/%3E%3C/svg%3E");
+	--lpe-ic-monitor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='2' y='3' width='20' height='14' rx='2'/%3E%3Cpath d='M8 21h8M12 17v4'/%3E%3C/svg%3E");
+	--lpe-ic-clock: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Cpath d='M12 6v6l4 2'/%3E%3C/svg%3E");
+	--lpe-ic-arrow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12h14M12 5l7 7-7 7'/%3E%3C/svg%3E");
+	--lpe-ic-chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+}
+
+/* ---- Base：ブロックを全幅にし、中身を中央の最大幅に収める ---- */
+.bge-contents {
+	--lpe-content: 1080px;
+	--lpe-gap: max(16px, min(40px, 4vw));
+	--lpe-inline: max(var(--lpe-gap), calc((100% - var(--lpe-content)) / 2));
+	/* 背景色オプションをテーマ色に置き換える */
+	--bge-options-bgcolor-blue: var(--lpe-main-06);
+	--bge-options-bgcolor-gray: var(--lpe-sub-06);
+	--bge-options-bgcolor-pink: var(--lpe-sub);
+	--bge-options-margin-normal: 0;
+	--bge-options-margin-small: 0;
+	--bge-options-margin-large: 0;
+	--bge-options-padding-with-border-or-bg: 0;
+	color: #2b2b2b;
+	font-size: 17px;
+	line-height: 1.85;
+}
+.bge-contents > [data-bgb] {
+	margin: 0;
+	padding: 0 var(--lpe-inline) 32px;
+}
+.bge-contents > .bgb-opt--mb-large { padding-bottom: 64px; }
+.bge-contents > .bgb-opt--mb-small { padding-bottom: 16px; }
+.bge-contents > .bgb-opt--mb-none { padding-bottom: 0; }
+/* 背景色のブロックが続くときは1つのセクションに見せる。最後のブロックだけ下に余白を取る */
+.bge-contents > :is(.bgb-opt--bg-blue, .bgb-opt--bg-gray, .bgb-opt--bg-pink) { padding-bottom: 32px; }
+.bge-contents > .bgb-opt--bg-blue:not(:has(+ .bgb-opt--bg-blue)),
+.bge-contents > .bgb-opt--bg-gray:not(:has(+ .bgb-opt--bg-gray)),
+.bge-contents > .bgb-opt--bg-pink:not(:has(+ .bgb-opt--bg-pink)) { padding-bottom: 96px; }
+.bge-contents > .bgb-opt--bg-pink { color: #fff; }
+.bge-contents > .bgb-opt--bg-pink a { color: #fff; }
+/* 背景色のないブロックで、次に背景色ブロックが来るときは余白を広げる */
+.bge-contents > [data-bgb]:not([class*="bgb-opt--bg-"]):has(+ [class*="bgb-opt--bg-"]) { padding-bottom: 96px; }
+.bge-contents > :last-child { padding-bottom: 96px; }
+
+/* 本文のタイポグラフィ */
+.bge-contents .bge-ckeditor > :first-child { margin-top: 0; }
+.bge-contents .bge-ckeditor > :last-child { margin-bottom: 0; }
+.bge-contents .bge-ckeditor :is(h2, h3, h4) { color: var(--lpe-sub); font-family: var(--lpe-font-head); line-height: 1.4; }
+.bge-contents .bgb-opt--bg-pink .bge-ckeditor :is(h2, h3, h4) { color: #fff; }
+.bge-contents .bge-title-h2 {
+	margin: 0; padding: 0; border: 0; background: none;
+	color: var(--lpe-sub); font-family: var(--lpe-font-head); font-size: clamp(28px, 3.4vw, 40px); font-weight: 900; line-height: 1.35;
+}
+.bge-contents .bge-title-h3 { margin: 0; padding: 0; border: 0; background: none; color: var(--lpe-sub); font-family: var(--lpe-font-head); font-size: 22px; font-weight: 700; }
+.bge-contents .bgt-btn-container { text-align: center; }
+.bge-contents .bgt-btn,
+.bge-contents a.bgt-btn {
+	display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+	min-width: 0; min-height: 60px; padding: 0 36px; border: 0; border-radius: 999px;
+	background: var(--lpe-main); color: #fff; font-family: var(--lpe-font-head); font-size: 19px; font-weight: 700; text-decoration: none;
+	box-shadow: 0 6px 16px color-mix(in srgb, var(--lpe-main) 28%, transparent);
+}
+.bge-contents .bgt-btn:hover { background: var(--lpe-sub); color: #fff; }
+.bge-contents .bgt-btn::before,
+.bge-contents .bgt-btn::after { display: none; }
+
+/* ---- 空の画像（すべての画像ブロック共通） ----
+   編集エリアでは、画像を選べるように点線の枠と案内を出す。公開画面では style.css で打ち消し、ブロックごとの表示にする。
+   「選択画像を削除する」で消した場合は data-bge-empty が "0" のまま img の src だけが空になるので、両方を空として扱う */
+.bge-contents .bgt-image:is([data-bge-empty="1"], :has(img[src=""])) {
+	position: relative; display: flex; align-items: center; justify-content: center; min-height: 160px; padding: 16px;
+	border: 2px dashed #8a8a8a; border-radius: 16px; background: rgba(255, 255, 255, .6); text-align: center;
+}
+.bge-contents .bgt-image:is([data-bge-empty="1"], :has(img[src=""]))::before { content: "画像（ダブルクリックで選択）"; color: #4d4d4d; font-size: 15px; font-weight: 700; }
+.bge-contents .bgt-image:has(img[src=""]) .bgt-image__link { display: none; }
+
+/* ---- セクション見出し（lpe-blk--section） ---- */
+.bge-contents > .lpe-blk--section { padding-top: 96px; padding-bottom: 40px; }
+.bge-contents > [class*="bgb-opt--bg-"] + .lpe-blk--section:not([class*="bgb-opt--bg-"]),
+.bge-contents > .lpe-blk--section:first-child { padding-top: 96px; }
+.bge-contents > [data-bgb]:not([class*="bgb-opt--bg-"]) + .lpe-blk--section:not([class*="bgb-opt--bg-"]) { padding-top: 64px; }
+.bge-contents > .lpe-blk--section[data-lpe-label]::before {
+	content: attr(data-lpe-label);
+	display: inline-block; margin-bottom: 12px; padding: 2px 14px; border-radius: 999px;
+	background: var(--lpe-main-10); color: var(--lpe-sub); font-size: 14px; font-weight: 700; letter-spacing: .12em;
+}
+.bge-contents > .lpe-blk--section.bgb-opt--bg-blue[data-lpe-label]::before { background: #fff; }
+.bge-contents > .lpe-blk--section.bgb-opt--bg-pink .bge-title-h2 { color: #fff; }
+
+/* ---- 共通：中央寄せ ---- */
+.bge-contents > .lpe-blk--center { text-align: center; }
+
+/* ---- ヒーロー（lpe-blk--hero） ---- */
+.bge-contents > .lpe-blk--hero {
+	display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: 48px; align-items: center;
+	margin: 32px var(--lpe-inline) 24px; padding: 64px; border-radius: 32px; background: var(--lpe-main-10);
+}
+.bge-contents > .lpe-blk--hero > .bgt-grid { width: auto; max-width: none; float: none; margin: 0; padding: 0; }
+.lpe-blk--hero .bge-ckeditor > ul:first-child { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 24px; padding: 0; list-style: none; }
+.lpe-blk--hero .bge-ckeditor > ul:first-child li { padding: 4px 14px; border-radius: 999px; background: #fff; color: var(--lpe-sub); font-size: 15px; font-weight: 700; line-height: 1.6; }
+.lpe-blk--hero .bge-ckeditor h1 { margin: 0; color: var(--lpe-sub); font-family: var(--lpe-font-head); font-size: clamp(36px, 4.6vw, 60px); font-weight: 900; line-height: 1.3; }
+.lpe-blk--hero .bge-ckeditor h1 + p { margin: 20px 0 0; font-size: clamp(18px, 1.7vw, 21px); font-weight: 500; }
+.lpe-blk--hero .bge-ckeditor > ul:not(:first-child) { display: flex; flex-wrap: wrap; gap: 12px; margin: 28px 0 0; padding: 0; list-style: none; }
+.lpe-blk--hero .bge-ckeditor > ul:not(:first-child) li { display: flex; align-items: center; gap: 10px; padding: 12px 18px; border-radius: 16px; background: #fff; color: var(--lpe-sub); font-weight: 700; line-height: 1.5; }
+.lpe-blk--hero .bge-ckeditor > ul:not(:first-child) li::before { content: ""; width: 22px; height: 22px; flex: none; background: currentColor; -webkit-mask: var(--lpe-ic-calendar) center / contain no-repeat; mask: var(--lpe-ic-calendar) center / contain no-repeat; }
+.lpe-blk--hero .bge-ckeditor > ul:not(:first-child) li:nth-child(2n)::before { -webkit-mask-image: var(--lpe-ic-monitor); mask-image: var(--lpe-ic-monitor); }
+.lpe-blk--hero .bge-ckeditor > p:last-child { margin: 36px 0 0; }
+.lpe-blk--hero .bge-ckeditor > p:last-child a {
+	display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+	min-height: 64px; padding: 0 40px; border-radius: 999px; background: var(--lpe-main); color: #fff;
+	font-family: var(--lpe-font-head); font-size: 21px; font-weight: 700; text-decoration: none;
+	box-shadow: 0 6px 16px color-mix(in srgb, var(--lpe-main) 28%, transparent); transition: background-color .2s, transform .2s;
+}
+.lpe-blk--hero .bge-ckeditor > p:last-child a::after { content: ""; width: 22px; height: 22px; background: currentColor; -webkit-mask: var(--lpe-ic-arrow) center / contain no-repeat; mask: var(--lpe-ic-arrow) center / contain no-repeat; }
+.lpe-blk--hero .bge-ckeditor > p:last-child a:hover { background: var(--lpe-sub); color: #fff; transform: translateY(-1px); }
+.lpe-blk--hero .bgt-image { margin: 0; }
+.lpe-blk--hero .bgt-image img { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 28px; }
+.lpe-blk--hero .bgt-box__caption:empty { display: none; }
+/* ヒーローの画像が空のときの枠の大きさ（枠そのものは下の「空の画像」で共通に出す） */
+.lpe-blk--hero .bgt-image:is([data-bge-empty="1"], :has(img[src=""])) { min-height: 260px; border-radius: 28px; }
+
+/* ---- 開催概要（lpe-blk--overview）：表の各行をタイルにする ---- */
+.lpe-blk--overview .bge-type-table { display: block; width: 100%; border: 0; }
+.lpe-blk--overview .bge-type-table caption { display: none; }
+.lpe-blk--overview .bge-type-table tbody { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; }
+.lpe-blk--overview .bge-type-table tr { display: flex; flex-direction: column; gap: 6px; padding: 28px; border-radius: 24px; background: var(--lpe-main-06); box-shadow: inset 0 0 0 1px var(--lpe-main-18); }
+.lpe-blk--overview .bge-type-table :is(th, td) { display: block; width: auto; padding: 0; border: 0; background: none; text-align: left; }
+.lpe-blk--overview .bge-type-table th { color: #4d4d4d; font-size: 15px; font-weight: 700; letter-spacing: .08em; }
+.lpe-blk--overview .bge-type-table th::before { content: ""; display: block; width: 48px; height: 48px; margin-bottom: 12px; border-radius: 14px; background: #fff; }
+.lpe-blk--overview .bge-type-table td { color: #3f3f3f; font-size: 16px; }
+.lpe-blk--overview .bge-type-table td::first-line { color: var(--lpe-sub); font-family: var(--lpe-font-head); font-size: 22px; font-weight: 700; line-height: 1.6; }
+/* アイコン：白い角丸の上に、行の順でアイコンを循環させる */
+.lpe-blk--overview .bge-type-table th { position: relative; }
+.lpe-blk--overview .bge-type-table th::after {
+	content: ""; position: absolute; top: 11px; left: 11px; width: 26px; height: 26px; background: var(--lpe-sub);
+	-webkit-mask: var(--lpe-ic-calendar) center / contain no-repeat; mask: var(--lpe-ic-calendar) center / contain no-repeat;
+}
+.lpe-blk--overview tr:nth-child(6n+2) th::after { -webkit-mask-image: var(--lpe-ic-pin); mask-image: var(--lpe-ic-pin); }
+.lpe-blk--overview tr:nth-child(6n+3) th::after { -webkit-mask-image: var(--lpe-ic-users); mask-image: var(--lpe-ic-users); }
+.lpe-blk--overview tr:nth-child(6n+4) th::after { -webkit-mask-image: var(--lpe-ic-ticket); mask-image: var(--lpe-ic-ticket); }
+.lpe-blk--overview tr:nth-child(6n+5) th::after { -webkit-mask-image: var(--lpe-ic-target); mask-image: var(--lpe-ic-target); }
+.lpe-blk--overview tr:nth-child(6n) th::after { -webkit-mask-image: var(--lpe-ic-building); mask-image: var(--lpe-ic-building); }
+/* 1行目（日時）は大きなタイル。2行目以降は 4n の並びで 2 列ぶん・1 列ぶんを交互に */
+.lpe-blk--overview tr:first-child { grid-column: span 2; grid-row: span 2; background: var(--lpe-main-10); }
+.lpe-blk--overview tr:first-child td { font-size: 17px; }
+.lpe-blk--overview tr:first-child td::first-line { font-size: clamp(56px, 7vw, 96px); font-weight: 900; line-height: 1.15; letter-spacing: -.02em; }
+.lpe-blk--overview tr:nth-child(2),
+.lpe-blk--overview tr:nth-child(n+5) { grid-column: span 2; }
+
+/* ---- こんな方におすすめ（lpe-blk--checklist） ---- */
+.lpe-blk--checklist .bge-ckeditor ul { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; margin: 0; padding: 0; list-style: none; }
+.lpe-blk--checklist .bge-ckeditor li { display: flex; flex-direction: column; gap: 16px; padding: 28px; border-radius: 24px; background: #fff; box-shadow: var(--lpe-shadow); color: var(--lpe-sub); font-size: 18px; font-weight: 700; line-height: 1.7; }
+.lpe-blk--checklist .bge-ckeditor li::before {
+	content: ""; flex: none; width: 48px; height: 48px; border-radius: 14px;
+	background: var(--lpe-main-10) var(--lpe-ic-users) center / 26px no-repeat;
+}
+.lpe-blk--checklist li:nth-child(4n+2)::before { background-image: var(--lpe-ic-pen); }
+.lpe-blk--checklist li:nth-child(4n+3)::before { background-image: var(--lpe-ic-chart); }
+.lpe-blk--checklist li:nth-child(4n)::before { background-image: var(--lpe-ic-refresh); }
+
+/* ---- プログラム（lpe-blk--program） ---- */
+.lpe-blk--program .bge-type-table { width: 100%; border: 0; border-collapse: collapse; border-radius: 24px; background: #fff; box-shadow: var(--lpe-shadow); overflow: hidden; }
+.lpe-blk--program .bge-type-table caption { display: none; }
+.lpe-blk--program .bge-type-table :is(th, td) { padding: 22px 28px; border: 0; border-bottom: 1px solid var(--lpe-sub-12); background: none; text-align: left; vertical-align: top; }
+.lpe-blk--program .bge-type-table tr:last-child :is(th, td) { border-bottom: 0; }
+.lpe-blk--program .bge-type-table th { width: 170px; color: var(--lpe-sub); font-family: var(--lpe-font-head); font-size: 20px; font-weight: 900; white-space: nowrap; }
+/* 時刻をチップ（角丸の背景）にするため、行を grid にして th を文字幅に縮める */
+.lpe-blk--program .bge-type-table tbody { display: block; }
+.lpe-blk--program .bge-type-table tr { display: grid; grid-template-columns: 170px minmax(0, 1fr); border-bottom: 1px solid var(--lpe-sub-12); }
+.lpe-blk--program .bge-type-table tr:last-child { border-bottom: 0; }
+.lpe-blk--program .bge-type-table :is(th, td) { border-bottom: 0; }
+.lpe-blk--program .bge-type-table th { justify-self: start; align-self: start; width: auto; margin: 22px 0 22px 28px; padding: 4px 14px; border-radius: 12px; background: var(--lpe-main-10); line-height: 1.5; }
+.lpe-blk--program .bge-type-table td { color: #3f3f3f; }
+.lpe-blk--program .bge-type-table td::first-line { color: var(--lpe-sub); font-family: var(--lpe-font-head); font-size: 20px; font-weight: 700; }
+
+/* ---- 登壇者（lpe-blk--speakers） ---- */
+.bge-contents > .lpe-blk--speakers { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+.lpe-blk--speakers > .bgt-grid { width: auto; max-width: none; float: none; margin: 0; padding: 20px 20px 28px; border-radius: 24px; background: #fff; box-shadow: var(--lpe-shadow); }
+.lpe-blk--speakers .bgt-image { margin: 0 0 20px; }
+.lpe-blk--speakers .bgt-image img { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 16px; }
+.lpe-blk--speakers .bgt-box__caption:empty { display: none; }
+.lpe-blk--speakers .bge-ckeditor { padding: 0 4px; }
+.lpe-blk--speakers .bge-ckeditor h3 { margin: 0; font-size: 26px; font-weight: 900; }
+.lpe-blk--speakers .bge-ckeditor h3 + p { display: inline-block; margin: 6px 0 0; padding: 2px 12px; border-radius: 999px; background: var(--lpe-main-10); color: var(--lpe-sub); font-size: 15px; font-weight: 700; }
+.lpe-blk--speakers .bge-ckeditor h3 + p + p { margin: 12px 0 0; color: #3f3f3f; }
+
+/* ---- 会場アクセス：地図（lpe-blk--map）・情報（lpe-blk--info）・お知らせ（lpe-blk--note） ---- */
+/* GoogleMaps ブロック。API キー（サイト基本設定）があると、公開画面で動く地図に置き換わる */
+.lpe-blk--map .bgt-google-maps { height: 380px; border-radius: 24px; background: #e7e7e7; overflow: hidden; }
+.lpe-blk--map .bgt-google-maps > img { width: 100%; height: 100%; object-fit: cover; }
+.lpe-blk--map .bgt-google-maps-link { display: inline-flex; align-items: center; margin-top: 10px; color: var(--lpe-link); font-size: 15px; font-weight: 700; }
+.lpe-blk--info .bge-ckeditor ul { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin: 0; padding: 0; list-style: none; }
+.lpe-blk--info .bge-ckeditor li {
+	position: relative; display: block; padding: 22px 24px 22px 88px; border-radius: 20px; background: #fff; box-shadow: var(--lpe-shadow);
+	color: var(--lpe-sub); font-size: 18px; font-weight: 700;
+}
+.lpe-blk--info .bge-ckeditor li::before { content: ""; position: absolute; top: 22px; left: 24px; width: 48px; height: 48px; border-radius: 14px; background: var(--lpe-main-10); }
+.lpe-blk--info .bge-ckeditor li::after { content: ""; position: absolute; top: 33px; left: 35px; width: 26px; height: 26px; background: var(--lpe-sub); -webkit-mask: var(--lpe-ic-pin) center / contain no-repeat; mask: var(--lpe-ic-pin) center / contain no-repeat; }
+.lpe-blk--info .bge-ckeditor li::after { -webkit-mask-image: var(--lpe-ic-building); mask-image: var(--lpe-ic-building); }
+.lpe-blk--info li:nth-child(3n+2)::after { -webkit-mask-image: var(--lpe-ic-train); mask-image: var(--lpe-ic-train); }
+.lpe-blk--info li:nth-child(3n)::after { -webkit-mask-image: var(--lpe-ic-monitor); mask-image: var(--lpe-ic-monitor); }
+.lpe-blk--info .bge-ckeditor li strong:first-child { display: block; color: #4d4d4d; font-size: 15px; }
+.lpe-blk--note .bge-ckeditor { padding: 24px; border-radius: 20px; background: var(--lpe-sub); color: #fff; }
+.lpe-blk--note .bge-ckeditor h3 { display: flex; align-items: center; gap: 10px; margin: 0 0 6px; color: #fff; font-size: 20px; font-weight: 900; }
+.lpe-blk--note .bge-ckeditor h3::before { content: ""; width: 24px; height: 24px; flex: none; background: currentColor; -webkit-mask: var(--lpe-ic-monitor) center / contain no-repeat; mask: var(--lpe-ic-monitor) center / contain no-repeat; }
+.lpe-blk--note .bge-ckeditor a { color: #fff; }
+
+/* 地図と情報を左右に並べる2列レイアウトは style.css にある（公開画面だけで適用する。
+   編集エリアで float すると、後ろのブロックの操作領域が地図に重なり、地図ブロックを選べなくなるため） */
+
+/* ---- よくある質問（lpe-blk--faq） ---- */
+.bge-contents > .lpe-blk--faq { --lpe-content: 800px; }
+.lpe-blk--faq .bge-ckeditor { display: flex; flex-direction: column; gap: 14px; }
+.lpe-blk--faq .bge-ckeditor > * { margin: 0; }
+.lpe-blk--faq .bge-ckeditor h3 {
+	display: flex; align-items: center; gap: 16px; margin: 0; padding: 22px 24px; border-radius: 20px; background: #fff; box-shadow: var(--lpe-shadow);
+	font-size: 19px; font-weight: 700;
+}
+.lpe-blk--faq .bge-ckeditor h3::before,
+.lpe-blk--faq .bge-ckeditor h3 + p::before {
+	content: "Q"; display: flex; align-items: center; justify-content: center; flex: none; width: 36px; height: 36px; border-radius: 50%;
+	background: var(--lpe-main-10); color: var(--lpe-sub); font-family: var(--lpe-font-head); font-size: 17px; font-weight: 900;
+}
+.lpe-blk--faq .bge-ckeditor h3 + p { display: flex; gap: 16px; margin: -26px 0 0; padding: 0 24px 24px; border-radius: 0 0 20px 20px; background: #fff; box-shadow: 0 12px 24px rgba(0, 0, 0, .06); }
+.lpe-blk--faq .bge-ckeditor h3 + p::before { content: "A"; background: var(--lpe-sub); color: #fff; }
+.lpe-blk--faq .bge-ckeditor h3:has(+ p) { border-radius: 20px 20px 0 0; box-shadow: none; }
+/* JS で開閉式にしたとき（site.js が h3 の中にボタンを入れる） */
+.lpe-blk--faq .lpe-faq__toggle { display: flex; align-items: center; gap: 16px; width: 100%; padding: 0; border: 0; background: none; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+.lpe-blk--faq .lpe-faq__toggle::after { content: ""; margin-left: auto; width: 20px; height: 20px; flex: none; background: currentColor; -webkit-mask: var(--lpe-ic-chevron) center / contain no-repeat; mask: var(--lpe-ic-chevron) center / contain no-repeat; transition: transform .2s; }
+.lpe-blk--faq .lpe-faq__toggle[aria-expanded="true"]::after { transform: rotate(180deg); }
+.lpe-blk--faq .bge-ckeditor h3.is-collapsed { border-radius: 20px; box-shadow: var(--lpe-shadow); }
+
+/* ---- 申し込み（lpe-blk--cta） ---- */
+.bge-contents > .lpe-blk--cta { margin: 24px var(--lpe-inline) 96px; padding: 0; }
+.bge-contents > .lpe-blk--cta:last-child { padding-bottom: 0; }
+.lpe-blk--cta .bge-ckeditor {
+	display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: 32px; align-items: center;
+	padding: 56px 64px; border-radius: 32px; background: var(--lpe-sub); color: #fff;
+}
+.lpe-blk--cta .bge-ckeditor > * { grid-column: 1; margin: 0; }
+.lpe-blk--cta .bge-ckeditor > p:first-child { justify-self: start; display: inline-flex; align-items: center; gap: 8px; padding: 4px 16px; border-radius: 999px; background: rgba(255, 255, 255, .14); font-size: 15px; font-weight: 700; }
+.lpe-blk--cta .bge-ckeditor > p:first-child::before { content: ""; width: 18px; height: 18px; background: currentColor; -webkit-mask: var(--lpe-ic-clock) center / contain no-repeat; mask: var(--lpe-ic-clock) center / contain no-repeat; }
+.lpe-blk--cta .bge-ckeditor h2 { margin-top: 16px; color: #fff; font-size: clamp(26px, 3.2vw, 38px); font-weight: 900; line-height: 1.4; }
+.lpe-blk--cta .bge-ckeditor h2 + p { margin-top: 10px; }
+.lpe-blk--cta .bge-ckeditor > p:last-child { grid-column: 2; grid-row: 1 / span 10; }
+.lpe-blk--cta .bge-ckeditor > p:last-child a {
+	display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+	min-height: 64px; padding: 0 40px; border-radius: 999px; background: var(--lpe-main); color: #fff;
+	font-family: var(--lpe-font-head); font-size: 21px; font-weight: 700; text-decoration: none; white-space: nowrap;
+}
+.lpe-blk--cta .bge-ckeditor > p:last-child a::after { content: ""; width: 22px; height: 22px; background: currentColor; -webkit-mask: var(--lpe-ic-arrow) center / contain no-repeat; mask: var(--lpe-ic-arrow) center / contain no-repeat; }
+.lpe-blk--cta .bge-ckeditor > p:last-child a:hover { background: #fff; color: var(--lpe-sub); }
+
+/* ---- レスポンシブ ---- */
+@media (max-width: 1000px) {
+	.lpe-blk--checklist .bge-ckeditor ul { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 860px) {
+	.bge-contents > .lpe-blk--hero { grid-template-columns: minmax(0, 1fr); gap: 32px; margin-top: 16px; padding: 32px 22px; border-radius: 24px; }
+	.lpe-blk--hero .bge-ckeditor > p:last-child a { width: 100%; }
+	.lpe-blk--overview .bge-type-table tbody { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+	.lpe-blk--overview tr:first-child { grid-row: auto; }
+	.lpe-blk--overview .bge-type-table tr { padding: 22px; border-radius: 20px; }
+	.bge-contents > .lpe-blk--speakers { grid-template-columns: minmax(0, 1fr); }
+	.lpe-blk--info .bge-ckeditor ul { grid-template-columns: minmax(0, 1fr); }
+	.lpe-blk--map .bgt-google-maps { height: 260px; }
+	.lpe-blk--cta .bge-ckeditor { grid-template-columns: minmax(0, 1fr); padding: 36px 24px; border-radius: 24px; }
+	.lpe-blk--cta .bge-ckeditor > p:last-child { grid-column: 1; grid-row: auto; margin-top: 24px; }
+	.lpe-blk--cta .bge-ckeditor > p:last-child a { width: 100%; }
+	.bge-contents > .lpe-blk--section { padding-top: 64px; }
+	.bge-contents > [class*="bgb-opt--bg-"]:not(:has(+ [class*="bgb-opt--bg-"])) { padding-bottom: 64px; }
+}
+@media (max-width: 640px) {
+	.lpe-blk--program .bge-type-table tr { grid-template-columns: minmax(0, 1fr); }
+	.lpe-blk--program .bge-type-table th { margin: 16px 0 0 20px; }
+	.lpe-blk--program .bge-type-table td { padding: 8px 20px 16px; }
+}
+@media (max-width: 560px) {
+	.lpe-blk--checklist .bge-ckeditor ul { grid-template-columns: minmax(0, 1fr); }
+	.lpe-blk--checklist .bge-ckeditor li { flex-direction: row; align-items: flex-start; padding: 20px; }
+	.lpe-blk--overview .bge-type-table tbody { grid-template-columns: minmax(0, 1fr); }
+	.lpe-blk--overview .bge-type-table tr { grid-column: auto !important; }
+}
+
+/* ---- 動き（CSS のみ・控えめ） ---- */
+@keyframes lpe-reveal { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
+@supports (animation-timeline: view()) {
+	@media (prefers-reduced-motion: no-preference) {
+		.lpe-body .bge-contents > [data-bgb]:not(.lpe-blk--hero) { animation: lpe-reveal linear both; animation-timeline: view(); animation-range: entry 0% entry 35%; }
+	}
+}
+@media (prefers-reduced-motion: reduce) {
+	.bge-contents *, .bge-contents *::before, .bge-contents *::after { transition: none !important; animation: none !important; }
+}
