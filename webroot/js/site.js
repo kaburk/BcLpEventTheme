@@ -1,5 +1,5 @@
 /**
- * BcLpEventTheme : baserCMS 5 イベント・セミナー LP テーマ
+ * BcLpEventTheme : baserCMS5 イベント・セミナー LP テーマ
  *
  * 共通 JS（jQuery 不要）
  * - SP メニューの開閉

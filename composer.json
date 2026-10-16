@@ -1,6 +1,6 @@
 {
     "name": "kaburk/bc-lp-event-theme",
-    "description": "LP theme for events and seminars (baserCMS 5)",
+    "description": "LP theme for events and seminars (baserCMS5)",
     "homepage": "https://blog.kaburk.com/",
     "type": "cakephp-plugin",
     "license": "MIT",

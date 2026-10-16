@@ -20,7 +20,7 @@ BurgerEditor のブロック操作と管理画面の設定だけで編集でき�
 
 ## 動作環境
 
-- baserCMS 5.4以上
+- baserCMS5.4以上
 - BurgerEditor（BcBurgerEditor）プラグインが有効であること
 
 ## インストール

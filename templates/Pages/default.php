@@ -1,6 +1,6 @@
 <?php
 /**
- * BcLpEventTheme : baserCMS 5 イベント・セミナー LP テーマ
+ * BcLpEventTheme : baserCMS5 イベント・セミナー LP テーマ
  *
  * 固定ページ（LP 本体）
  *

@@ -1,6 +1,6 @@
 <?php
 /**
- * BcLpEventTheme : baserCMS 5 イベント・セミナー LP テーマ
+ * BcLpEventTheme : baserCMS5 イベント・セミナー LP テーマ
  *
  * 申し込みの手順（1入力 → 2確認 → 3完了）
  *

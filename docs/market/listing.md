@@ -15,7 +15,7 @@
 | ファイル名 | BcLpEventTheme.zip |
 | ファイルアップロード | `BcLpEventTheme.zip`（GitHub Release の zip と同じもの） |
 | 対応バージョン | 5系：5.4.1、5.4.0 |
-| 対応バージョン 備考 | baserCMS 5.4以上。BurgerEditor（BcBurgerEditor）プラグインが必要です。 |
+| 対応バージョン 備考 | baserCMS5.4以上。BurgerEditor（BcBurgerEditor）プラグインが必要です。 |
 | ライセンス | URLで指定する ／ 名称：MIT License ／ URL：https://github.com/kaburk/BcLpEventTheme/blob/main/LICENSE |
 | 提供者 | 名称：kaburk ／ URL：https://blog.kaburk.com/ |
 | Webサイト | 名称：（空欄） ／ URL：https://github.com/kaburk/BcLpEventTheme |
@@ -25,7 +25,7 @@
 ## 説明概要（一覧画面・200文字以内：186文字）
 
 ```
-baserCMS 5.4以上向けの、イベント・セミナーの告知と申し込みのための1ページ LP テーマです。開催概要・プログラム・登壇者・会場アクセス・よくある質問・申し込みフォームまでを、BurgerEditor のブロック操作と管理画面の設定だけで編集できます。配色はテーマ設定の4色で変更でき、見本サイト一式の初期データ付きです。BurgerEditor が必要です。
+baserCMS5.4以上向けの、イベント・セミナーの告知と申し込みのための1ページ LP テーマです。開催概要・プログラム・登壇者・会場アクセス・よくある質問・申し込みフォームまでを、BurgerEditor のブロック操作と管理画面の設定だけで編集できます。配色はテーマ設定の4色で変更でき、見本サイト一式の初期データ付きです。BurgerEditor が必要です。
 ```
 
 メイン画像：`main.png`（500×500）
@@ -64,7 +64,7 @@ baserCMS 5.4以上向けの、イベント・セミナーの告知と申し込�
 ```html
 <h4>動作環境</h4>
 <ul>
-<li>baserCMS 5.4以上</li>
+<li>baserCMS5.4以上</li>
 <li>BurgerEditor（BcBurgerEditor）プラグインが有効であること</li>
 </ul>
 <h4>インストール</h4>

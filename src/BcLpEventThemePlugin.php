@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 /**
- * BcLpEventTheme : baserCMS 5 イベント・セミナー LP テーマ
+ * BcLpEventTheme : baserCMS5 イベント・セミナー LP テーマ
  */
 
 namespace BcLpEventTheme;
