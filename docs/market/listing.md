@@ -14,7 +14,7 @@
 | バージョン | 1.0.0 |
 | ファイル名 | BcLpEventTheme.zip |
 | ファイルアップロード | `BcLpEventTheme.zip`（GitHub Release の zip と同じもの） |
-| 対応バージョン | 5系：5.4.1、5.4.0 |
+| 対応バージョン | 5系：5.4.2、5.4.1、5.4.0 |
 | 対応バージョン 備考 | baserCMS5.4以上。BurgerEditor（BcBurgerEditor）プラグインが必要です。 |
 | ライセンス | URLで指定する ／ 名称：MIT License ／ URL：https://github.com/kaburk/BcLpEventTheme/blob/main/LICENSE |
 | 提供者 | 名称：kaburk ／ URL：https://blog.kaburk.com/ |
@@ -83,77 +83,9 @@ baserCMS5.4以上向けの、イベント・セミナーの告知と申し込み
 
 ## 説明情報3
 
-**説明見出し3**：編集のしかた
+**説明見出し3**：ソースコード・ライセンス
 
 **説明詳細3**
-
-```html
-<h4>編集できる場所</h4>
-<table>
-<tr><th>内容</th><th>編集する場所</th></tr>
-<tr><td>本文（全セクション）</td><td>固定ページ「トップページ」の BurgerEditor</td></tr>
-<tr><td>ロゴ・配色</td><td>テーマ設定</td></tr>
-<tr><td>ヘッダーのナビ</td><td>本文の大見出しブロックの「ID設定」（自動で作られる）</td></tr>
-<tr><td>「申し込む」ボタンのリンク先</td><td>自動（公開中の最初のメールフォーム）</td></tr>
-<tr><td>フォームの説明文・完了メッセージ・項目</td><td>メールフォームの設定・メールフィールド</td></tr>
-<tr><td>フッター（主催者・問い合わせ先）</td><td>ウィジェットエリア「フッター」のテキストウィジェット</td></tr>
-</table>
-<h4>本文ブロックの独自class</h4>
-<p>ブロック設定の「独自class設定」に入れると、決まった見た目になります。</p>
-<table>
-<tr><th>独自class</th><th>使うブロック</th><th>見た目</th></tr>
-<tr><td>lpe-blk--hero</td><td>画像右寄せ（テキスト回り込み無し）</td><td>ヒーロー（画像が空なら図形の飾り）</td></tr>
-<tr><td>lpe-blk--section</td><td>大見出し</td><td>セクション見出し（ID設定でナビと英字ラベル）</td></tr>
-<tr><td>lpe-blk--nonav</td><td>大見出し（lpe-blk--section と併用）</td><td>ナビに載せない</td></tr>
-<tr><td>lpe-blk--overview</td><td>2カラムテーブル</td><td>開催概要のタイル</td></tr>
-<tr><td>lpe-blk--checklist</td><td>1カラムテキスト</td><td>箇条書きをカードに</td></tr>
-<tr><td>lpe-blk--program</td><td>2カラムテーブル</td><td>タイムテーブル</td></tr>
-<tr><td>lpe-blk--speakers</td><td>画像3列＋テキスト</td><td>登壇者カード</td></tr>
-<tr><td>lpe-blk--map</td><td>GoogleMaps</td><td>会場の地図（直後に lpe-blk--info を置くと PC で2列）</td></tr>
-<tr><td>lpe-blk--info</td><td>1カラムテキスト</td><td>住所・最寄り駅のカード</td></tr>
-<tr><td>lpe-blk--note</td><td>1カラムテキスト</td><td>濃い色のお知らせカード</td></tr>
-<tr><td>lpe-blk--faq</td><td>1カラムテキスト</td><td>よくある質問（開閉式）</td></tr>
-<tr><td>lpe-blk--cta</td><td>1カラムテキスト</td><td>申し込みの CTA</td></tr>
-</table>
-<p>ブロック設定の「背景色」は、テーマ色に置き換えています（ブルー＝メインの薄い色／グレー＝サブの薄い色／ピンク＝サブの濃い色）。</p>
-<h4>開催日を変えるとき</h4>
-<p>日付は、ヒーロー・開催概要・申し込み（CTA）の締め切り・メールフォームの説明文に書かれているので、それぞれ直してください。</p>
-```
-
-**説明画像3**：`pc-2-program.png`（PC：こんな方におすすめ・プログラム）
-
----
-
-## 説明情報4
-
-**説明見出し4**：会場の地図と制限事項
-
-**説明詳細4**
-
-```html
-<h4>会場の地図（GoogleMaps ブロック）</h4>
-<ul>
-<li>管理画面 &gt; システム設定 &gt; サイト基本設定 で Google Maps API キーを登録してください</li>
-<li>キーの Google Cloud プロジェクトで、Maps JavaScript API・Geocoding API・Maps Static API を有効にし、課金を設定してください</li>
-<li>公開するサイトで使うキーには、HTTP リファラーの制限を設定してください</li>
-</ul>
-<h4>制限事項</h4>
-<ul>
-<li>本文の日付などは各ブロックに直接書くため、変更時は複数の場所を直す必要があります</li>
-<li>申し込みの締め切り後に CTA を自動で隠す機能はありません。締め切り後は CTA ブロックを非公開にしてください</li>
-<li>本文の見本画像は /bc_lp_event_theme/img/sample/ を参照しています。サブディレクトリに設置した場合は差し替えてください</li>
-</ul>
-```
-
-**説明画像4**：`pc-3-access.png`（PC：登壇者・会場アクセス）
-
----
-
-## 説明情報5
-
-**説明見出し5**：ソースコード・ライセンス
-
-**説明詳細5**
 
 ```html
 <p>ソースコードは GitHub で公開しています。不具合の報告・要望は Issues にお願いします。</p>
@@ -167,6 +99,26 @@ baserCMS5.4以上向けの、イベント・セミナーの告知と申し込み
 </ul>
 <p>ご利用は自己責任でお願いします。</p>
 ```
+
+**説明画像3**：`pc-2-program.png`（PC：こんな方におすすめ・プログラム）
+
+---
+
+## 説明情報4
+
+**説明見出し4**：（空欄）
+
+**説明詳細4**：（空欄）
+
+**説明画像4**：`pc-3-access.png`（PC：登壇者・会場アクセス）
+
+---
+
+## 説明情報5
+
+**説明見出し5**：（空欄）
+
+**説明詳細5**：（空欄）
 
 **説明画像5**：`form.png`（PC：申し込みフォームの入力画面）
 
